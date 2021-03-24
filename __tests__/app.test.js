@@ -48,4 +48,14 @@ describe('03_separation-of-concerns-demo routes', () => {
 
     expect(res.body).toEqual([order, order2]);
   });
+
+  it('ASYNC/AWAIT: returns a signle order that matches a given id', async () => {
+
+    const order = await Order.insert({quantity: 10})
+    const order2 = await Order.insert({quantity: 5})
+    const res = await request(app)
+      .get('/api/v1/orders/2')
+
+    expect(res.body).toEqual([order2]);
+  });
 });
