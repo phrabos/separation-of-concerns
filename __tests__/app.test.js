@@ -59,7 +59,7 @@ describe('03_separation-of-concerns-demo routes', () => {
     expect(res.body).toEqual([order2]);
   });
 
-  it('ASYNC/AWAIT: updates a signle order that matches a given id', async () => {
+  it('ASYNC/AWAIT: updates a single order that matches a given id', async () => {
 
     const order = await Order.insert({quantity: 10})
     const order2 = await Order.insert({quantity: 5})
@@ -71,5 +71,28 @@ describe('03_separation-of-concerns-demo routes', () => {
       .get('/api/v1/orders/2')
 
     expect(res.body).toEqual(updatedOrder.body);
+  });
+
+  it('ASYNC/AWAIT: updates a single order that matches a given id', async () => {
+
+    const order = await Order.insert({quantity: 10})
+    const order2 = await Order.insert({quantity: 5})
+    const res = await request(app)
+      .put('/api/v1/orders/2')
+      .send({ id: 2, quantity: 99 })
+    
+    const updatedOrder = await request(app)
+      .get('/api/v1/orders/2')
+
+    expect(res.body).toEqual(updatedOrder.body);
+  });
+  it('ASYNC/AWAIT: deletes a single order that matches a given id', async () => {
+
+    const order = await Order.insert({quantity: 10})
+    const order2 = await Order.insert({quantity: 5})
+    const res = await request(app)
+      .delete('/api/v1/orders/2')
+    
+    expect(res.body).toEqual(order2);
   });
 });
